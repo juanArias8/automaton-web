@@ -4,13 +4,13 @@ from resources.automaton import Automaton
 from resources.automaton_examples import odd_ones
 from resources.automaton_examples import strange_states
 from resources.exception import AutomatonException
-from resources.nfa import NFA
 
 
 class DFA(Automaton):
 
     def __init__(self, symbols: set, states: set, initial_state: str,
                  acceptation_states: set, transitions: dict):
+
         super().__init__(symbols, states, initial_state, acceptation_states,
                          transitions)
 
@@ -102,14 +102,14 @@ if __name__ == '__main__':
     automaton.minify()
     print(automaton.transitions)
 
-if __name__ == '__main__':
-    automaton = NFA(
-        odd_ones.get('symbols'),
-        odd_ones.get('states'),
-        odd_ones.get('initial_state'),
-        odd_ones.get('acceptation_state'),
-        odd_ones.get('transitions')
-    )
+# if __name__ == '__main__':
+#     automaton = NFA(
+#         odd_ones.get('symbols'),
+#         odd_ones.get('states'),
+#         odd_ones.get('initial_state'),
+#         odd_ones.get('acceptation_state'),
+#         odd_ones.get('transitions')
+#     )
 
 
 

@@ -13,4 +13,4 @@ class Automaton(object):
         for transition in transitions.items():
             for symbol in transition[1]:
                 if ',' in symbol:
-                    print(transition)
+                    return 'nfa'

@@ -11,6 +11,7 @@ class NFA(Automaton):
 
     def __init__(self, symbols: set, states: set, initial_state: str,
                  acceptation_states: set, transitions: dict):
+
         super().__init__(symbols, states, initial_state, acceptation_states,
                          transitions)
 
@@ -149,3 +150,4 @@ if __name__ == '__main__':
     )
 
     automaton.convert_nfa_in_dfa()
+    print(automaton.transitions)
