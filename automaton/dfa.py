@@ -1,6 +1,6 @@
 import queue
 
-from examples.automaton_examples import strange_states
+from examples.dfa import strange_states
 from exceptions.exception import AutomatonException
 
 

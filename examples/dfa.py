@@ -5,7 +5,7 @@ odd_zeros_pair_ones = {
     'symbols': {'0', '1'},
     'states': {'CPUP', 'CIUP', 'CPUI', 'CIUI'},
     'initial_state': 'CPUP',
-    'acceptation_state': {'CIUP'},
+    'final_states': {'CIUP'},
     'transitions': {
         'CPUP': {'0': 'CIUP', '1': 'CIUI'},
         'CIUP': {'0': 'CPUP', '1': 'CIUI'},
@@ -18,7 +18,7 @@ strange_states = {
     'symbols': {'a', 'b'},
     'states': {'0', '1', '2', '3', '4', '5', '6', '7', '8'},
     'initial_state': '0',
-    'acceptation_state': {'1', '2', '6', '7'},
+    'final_states': {'1', '2', '6', '7'},
     'transitions': {
         '0': {'a': '1', 'b': '5'},
         '1': {'a': '2', 'b': '7'},
@@ -32,18 +32,4 @@ strange_states = {
     }
 }
 
-################################################################################
-# NFA examples
-################################################################################
-odd_ones = {
-    'symbols': {'0', '1'},
-    'states': {'A', 'B', 'C', 'D'},
-    'initial_state': 'A',
-    'acceptation_state': {'B', 'C'},
-    'transitions': {
-        'A': {'0': 'B', '1': 'C,  D'},
-        'B': {'0': 'A', '1': 'B'},
-        'C': {'0': 'C', '1': 'D'},
-        'D': {'0': 'A', '1': 'C'}
-    }
-}
+

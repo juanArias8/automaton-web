@@ -11,6 +11,13 @@ class ENFA:
         self.transitions = transitions
 
     @staticmethod
+    def regular_expression_to_enfa(regular_expression: str):
+        regular_expression = parser.insert_dot_operator(regular_expression)
+        postfix = parser.to_postfix(regular_expression)
+
+        return ENFA.postfix_to_nfa(postfix)
+
+    @staticmethod
     def postfix_to_nfa(postfix: str):
         if postfix is '':
             return ENFA.basic_epsilon('0')
@@ -118,10 +125,10 @@ class ENFA:
         transitions = dict()
         transitions.update(enfa.transitions)
         transitions.update({initial_state: {
-            'e': f'{enfa.initial_state}, {final_state}'
+            'e': f'{enfa.initial_state},{final_state}'
         }})
         transitions.update({enfa.final_state: {
-            'e': {f'{enfa.initial_state}, {final_state}'}
+            'e': f'{enfa.initial_state},{final_state}'
         }})
 
         return ENFA(symbols, states, initial_state, final_state, transitions)
@@ -137,7 +144,7 @@ class ENFA:
         transitions = dict()
         transitions.update(enfa.transitions)
         transitions.update({enfa.final_state: {
-            'e': {f'{enfa.initial_state}, {final_state}'}
+            'e': {f'{enfa.initial_state},{final_state}'}
         }})
 
         return ENFA(symbols, states, initial_state, final_state, transitions)
@@ -159,9 +166,5 @@ class ENFA:
 
 
 if __name__ == '__main__':
-    text_ = '(a|b)*'
-    text_ = parser.insert_explicit_concat_operator(text_)
-    postfix_ = parser.to_postfix(text_)
-
-    automaton_ = ENFA.postfix_to_nfa(postfix_)
-    print(automaton_.__dict__)
+    text = '(a|b)*'
+    ENFA.regular_expression_to_enfa(text)

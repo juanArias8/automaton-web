@@ -6,7 +6,7 @@ operator_precedence = {
 }
 
 
-def insert_explicit_concat_operator(expression: str):
+def insert_dot_operator(expression: str):
     output = ''
 
     for index, token in enumerate(expression):
@@ -62,5 +62,5 @@ def to_postfix(expression: str):
 if __name__ == '__main__':
     text = '(a|b)*c'
 
-    print(insert_explicit_concat_operator(text))
-    print(to_postfix(insert_explicit_concat_operator(text)))
+    print(insert_dot_operator(text))
+    print(to_postfix(insert_dot_operator(text)))

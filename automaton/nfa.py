@@ -1,7 +1,7 @@
 import itertools
 import queue
 
-from examples.automaton_examples import odd_ones
+from examples.enfa import a_o_b_asterisk as example
 from automaton.dfa import DFA
 from exceptions.exception import AutomatonException
 
@@ -52,7 +52,7 @@ class NFA(object):
                 if one_state not in self.states:
                     raise AutomatonException(f'{state}: estado transición')
 
-    def convert_nfa_in_dfa(self) -> DFA:
+    def nfa_to_dfa(self) -> DFA:
         """
         - Create variables
         - Get initial
@@ -144,12 +144,12 @@ class NFA(object):
 
 if __name__ == '__main__':
     automaton = NFA(
-        odd_ones.get('symbols'),
-        odd_ones.get('states'),
-        odd_ones.get('initial_state'),
-        odd_ones.get('acceptation_state'),
-        odd_ones.get('transitions')
+        example.get('symbols'),
+        example.get('states'),
+        example.get('initial_state'),
+        example.get('final_states'),
+        example.get('transitions')
     )
 
-    automaton.convert_nfa_in_dfa()
+    automaton.nfa_to_dfa()
     print(automaton.transitions)
