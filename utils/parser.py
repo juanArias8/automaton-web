@@ -1,7 +1,8 @@
 operator_precedence = {
     '|': 0,
     '.': 1,
-    '*': 2
+    '+': 2,
+    '*': 3
 }
 
 
@@ -17,7 +18,8 @@ def insert_explicit_concat_operator(expression: str):
         if index < len(expression) - 1:
             lookahead = expression[index + 1]
 
-            if lookahead is '*' or lookahead is '|' or lookahead is ')':
+            if lookahead is '*' or lookahead is '+' or lookahead is '|' or \
+                    lookahead is ')':
                 continue
 
             output += '.'
@@ -34,7 +36,7 @@ def to_postfix(expression: str):
     operator_stack = list()
 
     for token in expression:
-        if token is '.' or token is '|' or token is '*':
+        if token is '.' or token is '|' or token is '+' or token is '*':
             while operator_stack and peek(operator_stack) is not '(' and \
                     operator_precedence[peek(operator_stack)] >= \
                     operator_precedence[token]:
@@ -58,7 +60,7 @@ def to_postfix(expression: str):
 
 
 if __name__ == '__main__':
-    text = '(ab*|b)*ab'
+    text = '(a|b)*c'
 
     print(insert_explicit_concat_operator(text))
     print(to_postfix(insert_explicit_concat_operator(text)))

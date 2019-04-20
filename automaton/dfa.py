@@ -1,18 +1,18 @@
 import queue
 
-from resources.automaton import Automaton
-from resources.automaton_examples import odd_ones
-from resources.automaton_examples import strange_states
-from resources.exception import AutomatonException
+from examples.automaton_examples import strange_states
+from exceptions.exception import AutomatonException
 
 
-class DFA(Automaton):
-
+class DFA(object):
     def __init__(self, symbols: set, states: set, initial_state: str,
                  acceptation_states: set, transitions: dict):
 
-        super().__init__(symbols, states, initial_state, acceptation_states,
-                         transitions)
+        self.symbols = symbols
+        self.states = states
+        self.initial_state = initial_state
+        self.final_states = acceptation_states
+        self.transitions = transitions
 
         self.validate_dfa()
         self.minify()
@@ -26,7 +26,7 @@ class DFA(Automaton):
         return self.initial_state in self.states
 
     def check_acceptation_states(self) -> bool:
-        for state in self.acceptation_states:
+        for state in self.final_states:
             if state not in self.states:
                 raise AutomatonException(f'{state} es un estado inválido')
         return True
@@ -87,7 +87,7 @@ class DFA(Automaton):
         return self.check_match(state)
 
     def check_match(self, state: str) -> bool:
-        return state in self.acceptation_states
+        return state in self.final_states
 
 
 if __name__ == '__main__':
@@ -103,13 +103,10 @@ if __name__ == '__main__':
     print(automaton.transitions)
 
 # if __name__ == '__main__':
-#     automaton = NFA(
+#     utils = NFA(
 #         odd_ones.get('symbols'),
 #         odd_ones.get('states'),
 #         odd_ones.get('initial_state'),
 #         odd_ones.get('acceptation_state'),
 #         odd_ones.get('transitions')
 #     )
-
-
-
