@@ -10,6 +10,42 @@ class ENFA:
         self.final_state = final_state
         self.transitions = transitions
 
+    def get_epsilon_closure(self):
+        epsilon_closures = dict()
+        for state in self.states:
+            print(state)
+            if state == self.final_state:
+                epsilon_closures.update({state: [state]})
+            else:
+                epsilon_closure = self.build_epsilon_closure(state)
+                epsilon_closures.update({state: epsilon_closure})
+
+        print(epsilon_closures)
+        return epsilon_closures
+
+    def build_epsilon_closure(self, state):
+        array_states = list()
+        stack_states = list([state])
+
+        while len(stack_states) > 0:
+            actual_state = stack_states.pop()
+            array_states.append(actual_state)
+
+            if actual_state != self.final_state:
+                transition = self.transitions.get(actual_state)
+                items = list(transition.items())
+                symbol, target_state = items[0][0], items[0][1]
+                if symbol is 'e' and ',' in target_state:
+                    temp1, temp2 = target_state.split(',')
+                    stack_states.append(temp1)
+                    stack_states.append(temp2)
+                elif symbol is 'e' and ',' not in target_state:
+                    array_states.append(target_state)
+                else:
+                    array_states.append(state)
+
+        return sorted(list(set(array_states)))
+
     @staticmethod
     def regular_expression_to_enfa(regular_expression: str):
         regular_expression = parser.insert_dot_operator(regular_expression)
@@ -25,35 +61,24 @@ class ENFA:
         stack = []
         for token in postfix:
             if token is '*':
-                automaton = stack.pop()
-                automaton = ENFA.build_star_closure(automaton)
-                stack.append(automaton)
-
-                print('* ==> ', automaton.__dict__)
+                stack.append(ENFA.build_star_closure(stack.pop()))
+                # print('* ==> ', stack[-1].__dict__)
             elif token is '+':
-                automaton = stack.pop()
-                automaton = ENFA.build_plus_closure(automaton)
-                stack.append(automaton)
-
-                print('+ ==> ', automaton.__dict__)
+                stack.append(ENFA.build_plus_closure(stack.pop()))
+                # print('+ ==> ', stack[-1].__dict__)
             elif token is '|':
                 right = stack.pop()
                 left = stack.pop()
-                automaton = ENFA.build_union(left, right)
-                stack.append(automaton)
-
-                print('| ==> ', automaton.__dict__)
+                stack.append(ENFA.build_union(left, right))
+                # print('| ==> ', stack[-1].__dict__)
             elif token is '.':
                 right = stack.pop()
                 left = stack.pop()
-                automaton = ENFA.build_union(left, right)
-                stack.append(automaton)
-
-                print('. ==> ', automaton.__dict__)
+                stack.append(ENFA.build_union(left, right))
+                # print('. ==> ', stack[-1].__dict__)
             else:
                 state = ENFA.get_max_state(stack[-1].states) if stack else '0'
-                automaton = ENFA.basic_symbol(state, token)
-                stack.append(automaton)
+                stack.append(ENFA.basic_symbol(state, token))
 
         print('final ==> ', stack[-1].__dict__)
         return stack.pop()
@@ -167,4 +192,5 @@ class ENFA:
 
 if __name__ == '__main__':
     text = '(a|b)*'
-    ENFA.regular_expression_to_enfa(text)
+    automaton = ENFA.regular_expression_to_enfa(text)
+    automaton.get_epsilon_closure()
