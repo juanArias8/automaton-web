@@ -82,7 +82,7 @@ class NFA(object):
         :return:
         """
         dfa_states = set()
-        dfa_acceptation_state = set()
+        dfa_final_state = set()
         dfa_transitions = dict()
         states_to_check = queue.Queue()
         states_checked = set()
@@ -96,7 +96,7 @@ class NFA(object):
                 new_state_name = self.build_space_name(target_state)
                 for state in new_state_name:
                     if state in self.final_states:
-                        dfa_acceptation_state.update({new_state_name})
+                        dfa_final_state.update({new_state_name})
                 if new_state_name not in states_checked:
                     states_to_check.put(new_state_name)
                 new_state_info = dict()
@@ -115,7 +115,7 @@ class NFA(object):
         dfa_states.update(dfa_transitions.keys())
 
         return DFA(self.symbols, dfa_states, self.initial_state,
-                   dfa_acceptation_state, dfa_transitions)
+                   dfa_final_state, dfa_transitions)
 
     def get_new_transitions(self, new_state_name: str) -> dict:
         state_info = dict()
