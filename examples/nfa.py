@@ -5,7 +5,7 @@ odd_ones = {
     'symbols': {'0', '1'},
     'states': {'A', 'B', 'C', 'D'},
     'initial_state': 'A',
-    'acceptation_state': {'B', 'C'},
+    'final_states': {'B', 'C'},
     'transitions': {
         'A': {'0': 'B', '1': 'C,  D'},
         'B': {'0': 'A', '1': 'B'},
