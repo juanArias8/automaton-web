@@ -1,5 +1,5 @@
 from automaton.dfa import DFA
-from utils import parser
+from automaton.utils import parser
 
 
 class ENFA:

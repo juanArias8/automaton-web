@@ -1,7 +1,7 @@
 import itertools
 
 from automaton.dfa import DFA
-from exceptions.exception import AutomatonException
+from automaton.exceptions.exception import AutomatonException
 
 
 class NFA(object):
@@ -123,7 +123,7 @@ class NFA(object):
 
 
 if __name__ == '__main__':
-    from examples.nfa import odd_ones as example
+    from automaton.examples import odd_ones as example
 
     automaton = NFA(
         example.get('symbols'),

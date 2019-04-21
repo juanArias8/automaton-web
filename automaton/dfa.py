@@ -1,4 +1,4 @@
-from exceptions.exception import AutomatonException
+from automaton.exceptions.exception import AutomatonException
 
 
 class DFA(object):
@@ -94,7 +94,7 @@ class DFA(object):
 
 
 if __name__ == '__main__':
-    from examples.dfa import strange_states as example
+    from automaton.examples.dfa import strange_states as example
 
     automaton = DFA(
         example.get('symbols'),
