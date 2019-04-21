@@ -12,12 +12,12 @@ class ENFA:
         self.transitions = transitions
 
     def enfa_to_dfa(self):
-        epsilon_closure = self.get_epsilon_closure()
+        closure = self.get_epsilon_closure()
 
         dfa_symbols = list(self.symbols)
         dfa_symbols.remove('e')
         dfa_transitions = dict()
-        dfa_initial_state = ''.join(epsilon_closure.get(self.initial_state))
+        dfa_initial_state = ''.join(closure.get(self.initial_state))
 
         stack_states = [dfa_initial_state]
         states_checked = []
@@ -27,12 +27,11 @@ class ENFA:
 
             dfa_transition = dict()
             for symbol in dfa_symbols:
-                target = self.build_target(symbol, actual_state)
-                dfa_state = ''.join(epsilon_closure.get(target))
-                dfa_transition.update({symbol: dfa_state})
+                target = self.build_target(symbol, actual_state, closure)
+                dfa_transition.update({symbol: target})
 
-                if dfa_state not in states_checked:
-                    stack_states.append(dfa_state)
+                if target not in states_checked:
+                    stack_states.append(target)
 
             dfa_transitions.update({actual_state: dfa_transition})
 
@@ -52,8 +51,8 @@ class ENFA:
         epsilon_closures.update({self.final_state: [self.final_state]})
 
         for state in states_to_check:
-            epsilon_closure = self.build_epsilon_closure(state)
-            epsilon_closures.update({state: epsilon_closure})
+            array_closure = self.build_epsilon_closure(state)
+            epsilon_closures.update({state: array_closure})
 
         return epsilon_closures
 
@@ -65,9 +64,11 @@ class ENFA:
             actual_state = stack_states.pop()
             array_states.append(actual_state)
 
-            if actual_state != self.final_state:
+            if actual_state == self.final_state:
+                continue
+            else:
                 transition = self.transitions.get(actual_state)
-                items = list(transition.items())
+                items = tuple(transition.items())
                 symbol, target_state = items[0][0], items[0][1]
                 if symbol is 'e' and ',' in target_state:
                     state_one, state_two = target_state.split(',')
@@ -81,14 +82,20 @@ class ENFA:
 
         return sorted(list(set(array_states)))
 
-    def build_target(self, symbol: str, array_state: str):
+    def build_target(self, symbol: str, array_state: str, closure: dict):
+        target = 'e'
         for state in array_state:
-            transition = self.transitions.get(state)
-            items = list(transition.items())
-            symbol_temp, state_temp = items[0][0], items[0][1]
-            if symbol_temp == symbol:
-                return state_temp
-        return None
+            try:
+                response = self.transitions.get(state).get(symbol)
+                if response:
+                    target = response
+                    break
+            except Exception as e:
+                print(f'{state}, {symbol} not exists: {e}')
+
+        dfa_state = ''.join(closure.get(target)) if target is not 'e' else 'e'
+
+        return dfa_state
 
     @staticmethod
     def regex_to_dfa(regex: str):
@@ -100,10 +107,10 @@ class ENFA:
         regular_expression = parser.insert_dot_operator(regular_expression)
         postfix = parser.to_postfix(regular_expression)
 
-        return ENFA.postfix_to_nfa(postfix)
+        return ENFA.postfix_to_enfa(postfix)
 
     @staticmethod
-    def postfix_to_nfa(postfix: str):
+    def postfix_to_enfa(postfix: str):
         if postfix is '':
             return ENFA.basic_epsilon('0')
 
@@ -120,7 +127,7 @@ class ENFA:
             elif token is '.':
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(ENFA.build_union(left, right))
+                stack.append(ENFA.build_concatenation(left, right))
             else:
                 state = ENFA.get_max_state(stack[-1].states) if stack else '0'
                 stack.append(ENFA.basic_symbol(state, token))
@@ -129,26 +136,34 @@ class ENFA:
 
     @staticmethod
     def basic_epsilon(max_state: str):
+        print(f'Building basic epsilon')
         initial_state, final_state = ENFA.get_initial_final_states(max_state)
 
         symbols = {'e'}
         states = {initial_state, final_state}
         transitions = {initial_state: {'e': final_state}}
 
-        return ENFA(symbols, states, initial_state, final_state, transitions)
+        enfa = ENFA(symbols, states, initial_state, final_state, transitions)
+        print(f'Result {enfa.__dict__} \n\n')
+        return enfa
 
     @staticmethod
     def basic_symbol(max_state: str, symbol: str):
+        print(f'Building basic symbol for {symbol}')
         initial_state, final_state = ENFA.get_initial_final_states(max_state)
 
         symbols = {symbol}
         states = {initial_state, final_state}
         transitions = {initial_state: {symbol: final_state}}
 
-        return ENFA(symbols, states, initial_state, final_state, transitions)
+        enfa = ENFA(symbols, states, initial_state, final_state, transitions)
+        print(f'Result {enfa.__dict__} \n\n')
+        return enfa
 
     @staticmethod
     def build_concatenation(first_enfa, second_enfa):
+        print(f'Building concatenation between {first_enfa.__dict__} and '
+              f'{second_enfa.__dict__}')
         symbols = first_enfa.symbols.union(second_enfa.symbols)
         states = first_enfa.states.union(second_enfa.states)
         initial_state = first_enfa.initial_state
@@ -161,10 +176,14 @@ class ENFA:
             'e': second_enfa.initial_state
         }})
 
-        return ENFA(symbols, states, initial_state, final_state, transitions)
+        enfa = ENFA(symbols, states, initial_state, final_state, transitions)
+        print(f'Result {enfa.__dict__} \n\n')
+        return enfa
 
     @staticmethod
     def build_union(first_enfa, second_enfa):
+        print(f'Building union between {first_enfa.__dict__} and '
+              f'{second_enfa.__dict__}')
         max_state = ENFA.get_max_state(first_enfa.states, second_enfa.states)
         initial_state, final_state = ENFA.get_initial_final_states(max_state)
 
@@ -181,10 +200,13 @@ class ENFA:
             'e': f'{first_enfa.initial_state},{second_enfa.initial_state}'
         }})
 
-        return ENFA(symbols, states, initial_state, final_state, transitions)
+        enfa = ENFA(symbols, states, initial_state, final_state, transitions)
+        print(f'Result {enfa.__dict__} \n\n')
+        return enfa
 
     @staticmethod
     def build_star_closure(enfa):
+        print(f'Building star closure for {enfa.__dict__}')
         max_state = ENFA.get_max_state(enfa.states)
         initial_state, final_state = ENFA.get_initial_final_states(max_state)
 
@@ -200,23 +222,29 @@ class ENFA:
             'e': f'{enfa.initial_state},{final_state}'
         }})
 
-        return ENFA(symbols, states, initial_state, final_state, transitions)
+        enfa = ENFA(symbols, states, initial_state, final_state, transitions)
+        print(f'Result {enfa.__dict__} \n\n')
+        return enfa
 
     @staticmethod
     def build_plus_closure(enfa):
+        print(f'Building plus closure for {enfa.__dict__}')
         max_state = ENFA.get_max_state(enfa.states)
         initial_state, final_state = ENFA.get_initial_final_states(max_state)
 
-        symbols = {'e'}.union(enfa.states)
+        symbols = {'e'}.union(enfa.symbols)
         states = {initial_state, final_state}.union(enfa.states)
 
         transitions = dict()
         transitions.update(enfa.transitions)
+        transitions.update({initial_state: {'e': enfa.initial_state}})
         transitions.update({enfa.final_state: {
             'e': f'{enfa.initial_state},{final_state}'
         }})
 
-        return ENFA(symbols, states, initial_state, final_state, transitions)
+        enfa = ENFA(symbols, states, initial_state, final_state, transitions)
+        print(f'Result {enfa.__dict__} \n\n')
+        return enfa
 
     @staticmethod
     def get_max_state(first_enfa_states: set, second_enfa_states=None):
@@ -224,7 +252,9 @@ class ENFA:
             states = first_enfa_states.union(second_enfa_states)
         else:
             states = first_enfa_states
-        return max(states)
+
+        number_states = [int(i) for i in states]
+        return str(max(number_states))
 
     @staticmethod
     def get_initial_final_states(max_state: str):
@@ -235,6 +265,6 @@ class ENFA:
 
 
 if __name__ == '__main__':
-    text = '(a|b)*'
+    text = '(a|b)+ab*(a|b|c)'
     dfa = ENFA.regex_to_dfa(text)
     print(dfa.__dict__)
