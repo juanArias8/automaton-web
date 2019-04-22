@@ -1,40 +1,69 @@
 <div class="row">
-    <div class="col l5 automaton-options">
+    <div class="col l4 automaton-options">
         <div class="automaton-input-container">
-            <h5 class="center-align">Automata Finito</h5>
-            <pre><code contenteditable="true" data-language="json">{
-    "symbols": ["0", "1"],
-    "states": ["A", "B", "C", "D"],
-    "initial_state": "A",
-    "final_states": ["B", "C"],
-    "transitions": {
-        "A": {"0": "B", "1": "C,  D"},
-        "B": {"0": "A", "1": "B"},
-        "C": {"0": "C", "1": "D"},
-        "D": {"0": "A", "1": "C"}
-    }
-}</code></pre>
-            <div class="center-align">
-                <button class="btn btn-primary btn-match" type="submit">Crear autómata</button>
-            </div>
+            <form class="automaton-form" id="automatonForm">
+                <div class="row">
+                    <div class="col s6">
+                        <input class="validate" type="text" id="statesInput" name="statesInput" placeholder="A, B, C">
+                        <label class="" for="statesInput">Estados</label>
+                    </div>
+                    <div class="col s6">
+                        <input class="validate" type="text" id="symbolsInput" name="symbolsInput" placeholder="0, 1, 2">
+                        <label class="" for="symbolsInput">Símbolos</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <input class="validate" type="text" id="statesInput" name="statesInput" placeholder="A">
+                        <label class="" for="statesInput">Inicial</label>
+                    </div>
+                    <div class="col s6">
+                        <input class="validate" type="text" id="symbolsInput" name="symbolsInput" placeholder="B, C">
+                        <label class="" for="symbolsInput">Final</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s9">
+                        <input class="validate" type="text" id="transitionInput" name="transitionInput"
+                               placeholder="{state: A, symbol: 0, target: B}">
+                        <label class="" for="transitionInput">Transición</label>
+                    </div>
+                    <div class="col s3">
+                        <button class="btn btn-primary btn-icon"><i class="material-icons">add</i></button>
+                    </div>
+                </div>
+
+                <div class="progress form-loader" id="loaderCreateAutomaton">
+                    <div class="indeterminate"></div>
+                </div>
+                <div class="center-align">
+                    <button class="btn btn-primary btn-match" id="btnCreateAutomaton">Crear autómata</button>
+                </div>
+            </form>
+            <form class="regex-form" id="regexForm">
+                <div class="col s6 input-field">
+                    <input class="validate" type="text" id="statesInput" name="statesInput" placeholder="A, B. C">
+                    <label class="" for="statesInput">Estados</label>
+                </div>
+                <div class="center-align">
+                    <button class="btn btn-primary btn-match" id="btnCreateAutomaton">Crear autómata</button>
+                </div>
+            </form>
         </div>
         <div class="matcher-container">
             <form id="automatonMatcherForm" class="automaton-matcher-form">
-                <div class="row">
-                    <div class="input-field col s8">
-                        <input id="string" type="text" class="validate">
-                        <label class="active" for="string">Cadena a comprobar</label>
-                    </div>
-                    <div class="col s4">
-                        <button class="btn btn-primary btn-match" type="submit">Verificar</button>
-                    </div>
+                <div class="input-field">
+                    <input id="string" type="text" class="validate">
+                    <label class="active" for="string">Cadena a comprobar</label>
+                </div>
+                <div class="center-align">
+                    <button class="btn btn-primary btn-match" type="submit">Verificar</button>
                 </div>
             </form>
         </div>
     </div>
 
-
-    <div class="col l7 automaton-graph-container">
+    <div class="col l8 automaton-graph-container">
         <div class="navbar-automaton">
             <ul class="navbar-automaton-collection">
                 <li class="navbar-automaton-item" id="graphAutomatonLink">GRÁFICO</li>
@@ -47,4 +76,3 @@
         <div class="code" id="codeAutomatonContainer"></div>
     </div>
 </div>
-

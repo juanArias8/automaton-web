@@ -59,6 +59,14 @@ def to_postfix(expression: str):
     return output
 
 
+def check_type(automaton: dict):
+    for state, transition in automaton.get('transitions').items():
+        for symbol, target in transition.items():
+            if ',' in target:
+                return 'nfa'
+    return 'dfa'
+
+
 if __name__ == '__main__':
     text = '(a|b)*c'
 
