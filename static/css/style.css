@@ -1,0 +1,160 @@
+/* ****************************************************************************************************************** */
+/* GENERAL SECTION STYLES */
+/* ****************************************************************************************************************** */
+* {
+    font-family: 'Ubuntu', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+}
+
+pre, code {
+    font-family: monospace !important;
+}
+
+.primary-color {
+    background-color: #ce93d8;
+    color: black !important;
+}
+
+.secondary-color {
+    background-color: #9fa8da;
+    color: black !important;
+}
+
+.success-color {
+    background-color: #a5d6a7;
+    color: black !important;
+}
+
+.alert-color {
+    background-color: #81d4fa;
+    color: black !important;
+}
+
+.danger-color {
+    background-color: #ef9a9a;
+    color: black !important;
+}
+
+.btn-primary {
+    color: #000;
+    width: auto;
+    height: 35px;
+    background-color: #ce93d8;
+    border: 1px dashed #9c27b0;
+    border-radius: 30px !important;
+}
+
+/* ****************************************************************************************************************** */
+/* NAVBAR SECTION STYLES */
+/* ****************************************************************************************************************** */
+nav {
+    position: fixed !important;
+    border: 1px solid gray;
+}
+
+li > a {
+    color: black !important;
+}
+
+.nav-wrapper {
+    margin-left: 100px !important;
+    margin-right: 100px !important;
+}
+
+.brand-logo {
+    font-size: 2.5rem !important;
+    text-shadow: 1px 1px 5px gray;
+    color: black !important;
+}
+
+.nav-separator {
+    margin-top: 60px !important;
+}
+
+/* ****************************************************************************************************************** */
+/* AUTOMATON SECTION STYLES */
+/* ****************************************************************************************************************** */
+.automaton-container {
+    height: 100vh;
+    width: 100vw;
+    margin-top: -20px !important;
+    padding: 0 !important;
+}
+
+.automaton-options {
+    height: calc(100vh - 60px);
+    border: 1px solid gray;
+    padding: 20px 0 0 0 !important;
+}
+
+.automaton-input-container {
+    height: 70% !important;
+    width: 100% !important;
+}
+
+pre, code {
+    height: auto !important;
+    width: 100% !important;
+}
+
+.matcher-container {
+    height: 30% !important;
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.automaton-matcher-form {
+    padding: 5%;
+}
+
+.btn-match {
+    margin-top: 20px !important;
+}
+
+.automaton-graph-container {
+    height: calc(100vh - 60px);
+    padding: 20px 0 0 0 !important;
+}
+
+.navbar-automaton {
+    margin-top: -20px !important;
+    width: 100% !important;
+    height: 60px !important;
+}
+
+.navbar-automaton-collection {
+    display: flex;
+}
+
+.navbar-automaton-item {
+    width: 33%;
+    text-align: center;
+    height: 60px !important;
+    margin-top: -16px !important;
+    transition: all 0.2s ease-in;
+    padding: 20px !important;
+}
+
+.navbar-automaton-item:hover {
+    cursor: pointer;
+    margin-top: -16px !important;
+    border-bottom: 2px solid #ce93d8;
+}
+
+.navbar-automaton-item:active {
+    border-bottom: 2px solid #ce93d8;
+}
+
+.graph, .json, .code {
+    width: 100%;
+    height: calc(100vh - 120px);
+}
+
+/* ****************************************************************************************************************** */
+/* REGEX SECTION STYLES */
+/* ****************************************************************************************************************** */
+
+/* ****************************************************************************************************************** */
+/* ABOUT SECTION STYLES */
+/* ****************************************************************************************************************** */

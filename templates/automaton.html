@@ -1,0 +1,50 @@
+<div class="row">
+    <div class="col l5 automaton-options">
+        <div class="automaton-input-container">
+            <h5 class="center-align">Automata Finito</h5>
+            <pre><code contenteditable="true" data-language="json">{
+    "symbols": ["0", "1"],
+    "states": ["A", "B", "C", "D"],
+    "initial_state": "A",
+    "final_states": ["B", "C"],
+    "transitions": {
+        "A": {"0": "B", "1": "C,  D"},
+        "B": {"0": "A", "1": "B"},
+        "C": {"0": "C", "1": "D"},
+        "D": {"0": "A", "1": "C"}
+    }
+}</code></pre>
+            <div class="center-align">
+                <button class="btn btn-primary btn-match" type="submit">Crear autómata</button>
+            </div>
+        </div>
+        <div class="matcher-container">
+            <form id="automatonMatcherForm" class="automaton-matcher-form">
+                <div class="row">
+                    <div class="input-field col s8">
+                        <input id="string" type="text" class="validate">
+                        <label class="active" for="string">Cadena a comprobar</label>
+                    </div>
+                    <div class="col s4">
+                        <button class="btn btn-primary btn-match" type="submit">Verificar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="col l7 automaton-graph-container">
+        <div class="navbar-automaton">
+            <ul class="navbar-automaton-collection">
+                <li class="navbar-automaton-item" id="graphAutomatonLink">GRÁFICO</li>
+                <li class="navbar-automaton-item" id="jsonAutomatonLink">JSON</li>
+                <li class="navbar-automaton-item" id="codeAutomatonLink">CÓDIGO</li>
+            </ul>
+        </div>
+        <div class="graph" id="graphAutomatonContainer"></div>
+        <div class="json" id="jsonAutomatonContainer"></div>
+        <div class="code" id="codeAutomatonContainer"></div>
+    </div>
+</div>
+
