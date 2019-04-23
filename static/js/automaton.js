@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    let example = {
+    let pexample = {
         "states": ["A", "B", "C"],
         "symbols": ["0", "1"],
         "finalStates": ["B", "C"],
@@ -22,6 +22,17 @@ $(document).ready(() => {
     let automatonForm = $("#automatonForm");
     let regexForm = $("#regexForm");
 
+    let btnAddTransition = $("#btnAddTransition");
+    let transitionStateInput = $("#transitionStateInput");
+    let transitionSymbolInput = $("#transitionSymbolInput");
+    let transitionTargetInput = $("#transitionTargetInput");
+    let transitionsList = $("#transitionsList");
+    let newAutomatonTransitions = [];
+
+    let btnMatcherOpener = $("#btnMatcherOpener");
+    let btnMatcherCloser = $("#btnMatcherCloser");
+    let matcherContainer = $("#matcherContainer");
+
     let graphAutomatonLink = $("#graphAutomatonLink");
     let jsonAutomatonLink = $("#jsonAutomatonLink");
     let codeAutomatonLink = $("#codeAutomatonLink");
@@ -37,6 +48,8 @@ $(document).ready(() => {
     loaderCreateAutomaton.hide(0);
     jsonAutomatonContainer.hide(0);
     codeAutomatonContainer.hide(0);
+
+    matcherContainer.hide(0);
     regexForm.hide(0);
 
     automatonLink.click(() => {
@@ -51,7 +64,29 @@ $(document).ready(() => {
         regexForm.show(0);
     });
 
-    buildGraph("hola");
+    btnAddTransition.click((event) => {
+        event.preventDefault();
+        let state = transitionStateInput.val();
+        let symbol = transitionSymbolInput.val();
+        let target = transitionTargetInput.val();
+        let transitionsText = "";
+
+        if (state !== "" && symbol !== "" && target !== "") {
+            let transition = {"state": state, "symbol": symbol, "target": target};
+
+            newAutomatonTransitions.unshift(transition);
+            newAutomatonTransitions.forEach(value => {
+                transitionsText += `<tr><td>${value["state"]}</td><td>${value["symbol"]}</td><td>${value["target"]}</td></tr>`;
+            });
+        } else {
+            failMessage("Todos los campos son requeridos");
+        }
+
+        transitionsList.html(transitionsText);
+        transitionStateInput.val("");
+        transitionSymbolInput.val("");
+        transitionTargetInput.val("");
+    });
 
     graphAutomatonLink.click(() => {
         graphAutomatonContainer.show(0);
@@ -71,6 +106,16 @@ $(document).ready(() => {
         codeAutomatonContainer.show(0);
     });
 
+    btnMatcherOpener.click(() => {
+        btnMatcherOpener.hide("slow");
+        matcherContainer.show("slow");
+    });
+
+    btnMatcherCloser.click(() => {
+        btnMatcherOpener.show("slow");
+        matcherContainer.hide("slow");
+    });
+
     btnCreateAutomaton.click(() => {
         console.log(automatonJsonInput.text());
         let jsonAutomaton = JSON.parse(automatonJsonInput.text());
@@ -86,13 +131,13 @@ $(document).ready(() => {
             loaderCreateAutomaton.hide("slow");
 
             if (data.success) {
-                toastSuccess(data.message);
+                successMessage(data.message);
             } else {
-                toastFail(data.message);
+                failMessage(data.message);
             }
         }).fail(function () {
             loaderCreateAutomaton.hide("slow");
-            toastFail("Ha ocurrido un error, por favor inténtalo más tarde");
+            failMessage("Ha ocurrido un error, por favor inténtalo más tarde");
         });
     });
 });
@@ -101,12 +146,12 @@ function buildGraph(example) {
     let states = ["A", "B", "C"];
     let symbols = ["0", "1"];
     let transitions = [
-        {"state": "A", "target": "B", "symbol": "0"},
-        {"state": "A", "target": "C", "symbol": "1"},
-        {"state": "B", "target": "A", "symbol": "0"},
-        {"state": "B", "target": "C", "symbol": "1"},
-        {"state": "C", "target": "C", "symbol": "0"},
-        {"state": "C", "target": "A", "symbol": "1"}
+        {"state": "A", "symbol": "0", "target": "B"},
+        {"state": "A", "symbol": "1", "target": "C"},
+        {"state": "B", "symbol": "0", "target": "B"},
+        {"state": "B", "symbol": "1", "target": "C"},
+        {"state": "C", "symbol": "0", "target": "C"},
+        {"state": "C", "symbol": "1", "target": "C"}
     ];
 
     let nodes = [];
@@ -133,18 +178,3 @@ function buildGraph(example) {
     let network = new vis.Network(container, data, {});
 }
 
-/**
- * show toast message when something goes bad
- * @param message
- */
-function toastFail(message) {
-    M.toast({html: message, classes: "rounded red black-text"});
-}
-
-/**
- * show toast message when something goes fine
- * @param message
- */
-function toastSuccess(message) {
-    M.toast({html: message, classes: "rounded green black-text"});
-}

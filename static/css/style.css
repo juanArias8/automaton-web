@@ -91,6 +91,20 @@ label {
     color: gray !important;
 }
 
+.fail-message {
+    border: 1px dashed red !important;
+    background-color: #ef9a9a !important;
+    border-radius: 30px !important;
+    color: #000;
+}
+
+.success-message {
+    border: 1px dashed green !important;
+    background-color: #a5d6a7 !important;
+    border-radius: 30px !important;
+    color: #000;
+}
+
 /* ****************************************************************************************************************** */
 /* NAVBAR SECTION STYLES */
 /* ****************************************************************************************************************** */
@@ -116,7 +130,7 @@ label {
 
 .navbar-item:hover {
     cursor: pointer;
-    border-bottom: 2px solid green;
+    border-bottom: 2px solid #ce93d8;
 }
 
 .brand-text {
@@ -138,26 +152,60 @@ label {
 }
 
 .automaton-input-container {
-    height: 70% !important;
+    height: calc(100% - 60px) !important;
     width: 100% !important;
     padding: 10px;
+    overflow-y: auto !important;
 }
 
 .automaton-title {
     margin-top: 10px !important;
 }
 
-.btn-icon {
+.btn-add-transition {
     height: 40px !important;
     width: 70px !important;
-    margin-top: 20px !important;
+    margin-top: 25px !important;
+}
+
+.btn-create-automaton {
+    margin-top: 15px !important;
+}
+
+.matcher-opener {
+    height: 60px;
+    border-top: 1px solid gray;
+    padding-top: 10px !important;
+}
+
+.matcher-opener:hover {
+    cursor: pointer;
 }
 
 .matcher-container {
-    height: 30% !important;
-    width: 100% !important;
-    margin: 0 !important;
+    position: fixed !important;
+    z-index: 9999 !important;
+    height: auto !important;
+    width: 33%;
     border-top: 1px solid gray;
+    background-color: white !important;
+    bottom: 0 !important;
+    left: 2px !important;
+    padding: 0 2% 2% 2% !important;
+}
+
+.close-icon-form {
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    font-size: 2.5rem;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.2s ease-in;
+}
+
+.close-icon-form:hover {
+    color: #EF9A9A;
 }
 
 .automaton-matcher-form {
