@@ -79,7 +79,7 @@ $(document).ready(() => {
                     showAutomatonSolutionResponse();
                     clearAutomatonFormInputs();
                     buildGraph(response.data);
-                    buildJsonText(response.data);
+                    buildJsonText(response.automaton);
                     transitions = [];
                 } else {
                     showAutomatonSolutionInfo();
@@ -113,7 +113,7 @@ $(document).ready(() => {
                     clearRegexFormInputs();
                     buildGraph(response.data);
                     buildJsonText(response.data);
-                    buildPythonScript(response.data);
+                    buildPythonScript(response.automaton);
                 } else {
                     showAutomatonSolutionInfo();
                     failMessage(response.message);
@@ -203,6 +203,7 @@ function buildJsonText(automaton) {
 }
 
 function buildPythonScript(automaton) {
-    let pythonScript = generatePythonTemplate();
+    console.log(automaton);
+    let pythonScript = generatePythonTemplate(automaton);
     $("#codeAutomatonContainer").html(`<pre><code>${pythonScript}</code></pre>`)
 }

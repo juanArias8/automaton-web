@@ -10,6 +10,7 @@ from automaton.utils.common import check_type
 from automaton.utils.common import from_dict_to_json_format
 from automaton.utils.common import from_json_to_dict
 from automaton.utils.script import check_expression
+from automaton.utils.script import generate_dict_string
 
 # from automaton import enfa
 
@@ -24,42 +25,37 @@ def index():
 @app.route('/automaton/create', methods=['POST'])
 def create_automaton():
     request_data = request.get_json()
-    print(f'json ==> {request_data}')
     try:
         automaton = from_json_to_dict(request_data)
-        print(f'dict ==> {automaton}')
-        if check_type(automaton) is 'nfa':
-            nfa_automaton = NFA(automaton.get('symbols'),
-                                automaton.get('states'),
-                                automaton.get('initial_state'),
-                                automaton.get('acceptation_states'),
-                                automaton.get('transitions'))
+        states = automaton.get('symbols')
+        symbols = automaton.get('states')
+        initial = automaton.get('initial_state')
+        final = automaton.get('final_states')
+        transitions = automaton.get('transitions')
 
+        if check_type(automaton) is 'nfa':
+            nfa_automaton = NFA(symbols, states, initial, final, transitions)
             dfa_automaton = nfa_automaton.nfa_to_dfa()
         else:
-            dfa_automaton = DFA(automaton.get('symbols'),
-                                automaton.get('states'),
-                                automaton.get('initial_state'),
-                                automaton.get('final_states'),
-                                automaton.get('transitions'))
+            dfa_automaton = DFA(symbols, states, initial, final, transitions)
 
         dfa_automaton.minify()
+        automaton_string = generate_dict_string(dfa_automaton.__dict__)
         data = from_dict_to_json_format(dfa_automaton.__dict__)
-        print(f'response ==> {data}')
 
         success = True
         message = 'Automata creado con éxito'
     except Exception as error:
-        print(error)
         success = False
         message = error
         data = {}
+        automaton_string = ''
     response = jsonify({
         'success': success,
         'data': data,
-        'message': message
+        'message': message,
+        'automaton': automaton_string
     })
-    print(response)
 
     return response
 
@@ -67,27 +63,25 @@ def create_automaton():
 @app.route('/regex/generate', methods=['POST'])
 def generate_automaton():
     request_data = request.get_json()
-    print(f'json ==> {request_data}')
     try:
         dfa_automaton = ENFA.regex_to_dfa(request_data['regex'])
         dfa_automaton.minify()
-        print(f'AUTOMATON {dfa_automaton.__dict__}')
+        automaton_string = generate_dict_string(dfa_automaton.__dict__)
         data = from_dict_to_json_format(dfa_automaton.__dict__)
-        print(f'response ==> {data}')
 
         success = True
         message = 'Automata creado con éxito'
     except Exception as error:
-        print(error)
         success = False
         message = error
         data = {}
+        automaton_string = ''
     response = jsonify({
         'success': success,
         'data': data,
-        'message': message
+        'message': message,
+        'automaton': automaton_string
     })
-    print(response)
 
     return response
 
@@ -95,7 +89,6 @@ def generate_automaton():
 @app.route('/regex/match', methods=['POST'])
 def match_string():
     request_data = request.get_json()
-    print(f'json ==> {request_data}')
 
     automaton = from_json_to_dict(request_data['automaton'])
     match = check_expression(automaton, request_data['string'])

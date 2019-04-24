@@ -15,18 +15,7 @@ function successMessage(message) {
 }
 
 function generatePythonTemplate(automaton){
-    return 'automaton_test = {\n' +
-        '    \'symbols\': {\'0\', \'1\'},\n' +
-        '    \'states\': {\'CPUP\', \'CIUP\', \'CPUI\', \'CIUI\'},\n' +
-        '    \'initial_state\': \'CPUP\',\n' +
-        '    \'final_states\': {\'CIUP\'},\n' +
-        '    \'transitions\': {\n' +
-        '        \'CPUP\': {\'0\': \'CIUP\', \'1\': \'CIUI\'},\n' +
-        '        \'CIUP\': {\'0\': \'CPUP\', \'1\': \'CIUI\'},\n' +
-        '        \'CPUI\': {\'0\': \'CIUI\', \'1\': \'CPUP\'},\n' +
-        '        \'CIUI\': {\'0\': \'CPUI\', \'1\': \'CIUP\'}\n' +
-        '    }\n' +
-        '}\n' +
+    return `${automaton}` +
         '\n' +
         '\n' +
         'def check_expression(automaton, expression: str) -> bool:\n' +
