@@ -13,3 +13,4 @@ function failMessage(message) {
 function successMessage(message) {
     M.toast({html: message, classes: "success-message"});
 }
+

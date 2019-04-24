@@ -85,3 +85,21 @@ $(document).ready(() => {
         matcherContainer.hide("slow");
     });
 });
+
+function showAutomatonSolutionInfo() {
+    $("#automatonSolutionInfo").show("slow");
+    $("#automatonSolutionLoader").hide("slow");
+    $("#automatonSolutionResponse").hide("slow");
+}
+
+function showAutomatonLoader() {
+    $("#automatonSolutionInfo").hide("slow");
+    $("#automatonSolutionLoader").show("slow");
+    $("#automatonSolutionResponse").hide("slow");
+}
+
+function showAutomatonSolutionResponse() {
+    $("#automatonSolutionInfo").hide("slow");
+    $("#automatonSolutionLoader").hide("slow");
+    $("#automatonSolutionResponse").show("slow");
+}

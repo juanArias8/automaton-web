@@ -1,7 +1,4 @@
 $(document).ready(() => {
-    let automatonForm = $("#automatonForm");
-    let regexForm = $("#regexForm");
-
     let statesInput = $("#statesInput");
     let symbolsInput = $("#symbolsInput");
     let initialInput = $("#initialInput");
@@ -15,11 +12,7 @@ $(document).ready(() => {
     let transitions = [];
 
     let btnCreateAutomaton = $("#btnCreateAutomaton");
-
-    let automatonSolutionInfo = $("#automatonSolutionInfo");
-    let automatonSolutionLoader = $("#automatonSolutionLoader");
-    let automatonSolutionResponse = $("#automatonSolutionResponse");
-
+    let btnClearAutomaton = $("#btnClearAutomaton");
 
     btnAddTransition.click((event) => {
         event.preventDefault();
@@ -49,11 +42,22 @@ $(document).ready(() => {
         transitionTargetInput.val("");
     });
 
+    btnClearAutomaton.click((event) => {
+        event.preventDefault();
+        statesInput.val("");
+        symbolsInput.val("");
+        initialInput.val("");
+        finalInput.val("");
+        transitions = [];
+        transitionStateInput.val("");
+        transitionSymbolInput.val("");
+        transitionTargetInput.val("");
+        transitionsList.html(null);
+    });
+
     btnCreateAutomaton.click((event) => {
         event.preventDefault();
-
-        automatonSolutionInfo.hide(0);
-        automatonSolutionLoader.show(0);
+        showAutomatonLoader();
 
         let states = statesInput.val().toUpperCase().split(',');
         let symbols = symbolsInput.val().toUpperCase().split(',');
@@ -75,17 +79,15 @@ $(document).ready(() => {
                 type: "POST", url: "/automaton/create", data: jsonAutomaton,
                 contentType: "application/json; charset=utf-8", dataType: "json",
             }).done(function (response) {
-                automatonSolutionLoader.hide("slow");
                 if (response.success) {
-                    successMessage(response.message);
-                    automatonSolutionResponse.show("slow");
+                    showAutomatonSolutionResponse();
                     buildGraph(response.data);
                 } else {
+                    showAutomatonSolutionInfo();
                     failMessage(response.message);
                 }
             }).fail(function () {
-                automatonSolutionLoader.hide("slow");
-                automatonSolutionInfo.show("slow");
+                showAutomatonSolutionInfo();
                 failMessage("Ha ocurrido un error, por favor inténtalo más tarde");
             });
         } else {
