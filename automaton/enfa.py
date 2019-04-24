@@ -267,6 +267,6 @@ class ENFA:
 
 
 if __name__ == '__main__':
-    text = 'ab'
+    text = '((1|01)*|1)+'
     dfa = ENFA.regex_to_dfa(text)
     print(dfa.__dict__)

@@ -90,12 +90,17 @@
         <div class="matcher-container" id="matcherContainer">
             <a class="right" id="btnMatcherCloser"><i class="material-icons close-icon-form">close</i></a>
             <form id="automatonMatcherForm" class="automaton-matcher-form">
-                <div class="input-field">
-                    <input id="string" type="text" class="validate">
-                    <label class="active" for="string">Cadena a comprobar</label>
+                <div class="">
+                    <input id="stringInput" type="text" class="validate">
+                    <label class="" for="stringInput">Cadena a comprobar</label>
+                </div>
+                <div class="center-align match-loader-container">
+                    <div class="progress" id="matchLoader">
+                        <div class="indeterminate"></div>
+                    </div>
                 </div>
                 <div class="center-align">
-                    <button class="btn btn-primary btn-match" type="submit">Verificar</button>
+                    <button class="btn btn-primary btn-match" id="btnMatchString" type="submit">Verificar</button>
                 </div>
             </form>
         </div>

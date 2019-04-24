@@ -9,6 +9,7 @@ from automaton.nfa import NFA
 from automaton.utils.common import check_type
 from automaton.utils.common import from_dict_to_json_format
 from automaton.utils.common import from_json_to_dict
+from automaton.utils.script import check_expression
 
 # from automaton import enfa
 
@@ -22,10 +23,10 @@ def index():
 
 @app.route('/automaton/create', methods=['POST'])
 def create_automaton():
-    json = request.get_json()
-    print(f'json ==> {json}')
+    request_data = request.get_json()
+    print(f'json ==> {request_data}')
     try:
-        automaton = from_json_to_dict(json)
+        automaton = from_json_to_dict(request_data)
         print(f'dict ==> {automaton}')
         if check_type(automaton) is 'nfa':
             nfa_automaton = NFA(automaton.get('symbols'),
@@ -65,10 +66,10 @@ def create_automaton():
 
 @app.route('/regex/generate', methods=['POST'])
 def generate_automaton():
-    json = request.get_json()
-    print(f'json ==> {json}')
+    request_data = request.get_json()
+    print(f'json ==> {request_data}')
     try:
-        dfa_automaton = ENFA.regex_to_dfa(json['regex'])
+        dfa_automaton = ENFA.regex_to_dfa(request_data['regex'])
         dfa_automaton.minify()
         print(f'AUTOMATON {dfa_automaton.__dict__}')
         data = from_dict_to_json_format(dfa_automaton.__dict__)
@@ -89,6 +90,17 @@ def generate_automaton():
     print(response)
 
     return response
+
+
+@app.route('/regex/match', methods=['POST'])
+def match_string():
+    request_data = request.get_json()
+    print(f'json ==> {request_data}')
+
+    automaton = from_json_to_dict(request_data['automaton'])
+    match = check_expression(automaton, request_data['string'])
+
+    return jsonify({'success': match})
 
 
 if __name__ == '__main__':

@@ -26,6 +26,8 @@ $(document).ready(() => {
     let detailsAutomatonContainer = $("#detailsAutomatonContainer");
     let codeAutomatonContainer = $("#codeAutomatonContainer");
 
+    let matchLoader = $("#matchLoader");
+
     aboutContainer.hide(0);
     regexForm.hide(0);
     automatonSolutionResponse.hide(0);
@@ -33,6 +35,7 @@ $(document).ready(() => {
     detailsAutomatonContainer.hide(0);
     codeAutomatonContainer.hide(0);
     matcherContainer.hide(0);
+    matchLoader.hide(0);
 
     automatonLink.click(() => {
         automatonContainer.show(0);
@@ -117,4 +120,16 @@ function clearAutomatonFormInputs() {
 
 function clearRegexFormInputs() {
     $("#regexInput").val("");
+}
+
+function clearMatchFormInputs() {
+    $("#stringInput").html("");
+}
+
+function showMatchLoader() {
+    $("#matchLoader").show("slow");
+}
+
+function hideMatchLoader() {
+    $("#matchLoader").hide("slow");
 }
