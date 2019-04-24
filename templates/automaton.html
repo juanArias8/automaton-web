@@ -173,7 +173,35 @@
                     <tbody id="detailAutomatonTransitions"></tbody>
                 </table>
             </div>
-            <div class="automaton-code" id="codeAutomatonContainer"></div>
+            <div id="codeAutomatonContainer">
+                <div class="row">
+                    <div class="col s12 l8 code-automaton-container">
+                        <pre class="automaton-code" id="codeAutomaton"></pre>
+                    </div>
+                    <div class="col s12 l4">
+                        <div class="automaton-code-info">
+                            <p class="automaton-code-info-text">
+                                El script presentado corresponde a una simple implementación en el lenguaje de
+                                programación<b>python</b>. <br> Dicho script puede puede ser descargado y ejecutado en
+                                cualquier sistema que disponga de un intérprete de python, o bien en un intérprete
+                                online tal como <a href="https://www.onlinegdb.com/online_python_interpreter"
+                                                   target="_blank">onlineGDB</a>. <br>
+                                Para ejecutar el código desde una terminal en linux por favor siga estos pasos:
+                            </p>
+                            <code>
+                                $ cd /ruta/archivo/<br>
+                                $ python3 automaton.py <br>
+                                $ Ingrese la cadena >> abc <br>
+                                $ True
+                            </code>
+                        </div>
+                        <hr>
+                        <div class="center-align">
+                            <button class="btn btn-primary hoverable" id="btnDownloadScript">Descargar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -92,6 +92,7 @@
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -351,11 +352,14 @@ label {
     height: calc(100vh - 100px);
 }
 
-.automaton-details, .automaton-code {
-    width: 90%;
+.automaton-details, .code-automaton-container {
     margin-left: 5%;
     height: calc(100vh - 120px);
     overflow-y: auto !important;
+}
+
+.automaton-details {
+    width: 90%;
 }
 
 .automaton-graph {
@@ -363,12 +367,22 @@ label {
     text-align: center !important;
 }
 
-.automaton-details {
-
+.automaton-code {
+    overflow-y: auto !important;
+    overflow-x: auto !important;
 }
 
-.automaton-code {
+.automaton-code-info {
+    width: 80% !important;
+    margin-left: 6% !important;
+}
 
+.automaton-code-info-title {
+    margin-top: 0 !important;
+}
+
+.automaton-code-info-text {
+    text-align: justify;
 }
 
 .match-loader-container {

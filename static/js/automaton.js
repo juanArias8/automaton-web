@@ -18,6 +18,8 @@ $(document).ready(() => {
     let stringInput = $("#stringInput");
     let btnMatchString = $("#btnMatchString");
 
+    let btnDownloadScript = $("#btnDownloadScript");
+
     btnAddTransition.click((event) => {
         event.preventDefault();
         let state = transitionStateInput.val().toUpperCase();
@@ -158,6 +160,11 @@ $(document).ready(() => {
             failMessage("Por favor verifica que hayas ingresado todos los campos");
         }
     });
+
+    btnDownloadScript.click((event) => {
+        event.preventDefault();
+        downloadScript();
+    });
 });
 
 function buildGraph(automatonJson) {
@@ -205,5 +212,18 @@ function buildJsonText(automaton) {
 function buildPythonScript(automaton) {
     console.log(automaton);
     let pythonScript = generatePythonTemplate(automaton);
-    $("#codeAutomatonContainer").html(`<pre><code>${pythonScript}</code></pre>`)
+    localStorage.setItem("script", pythonScript);
+    $("#codeAutomaton").html(`<code>${pythonScript}</code>`)
+}
+
+function downloadScript() {
+    let script = localStorage.getItem("script");
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script));
+    element.setAttribute('download', 'script.py');
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
 }
