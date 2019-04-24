@@ -1,5 +1,5 @@
 from automaton.dfa import DFA
-from automaton.utils import common_utils
+from automaton.utils import common
 
 
 class ENFA:
@@ -15,9 +15,11 @@ class ENFA:
         closure = self.get_epsilon_closure()
 
         dfa_symbols = list(self.symbols)
-        dfa_symbols.remove('e')
         dfa_transitions = dict()
         dfa_initial_state = ''.join(closure.get(self.initial_state))
+
+        if 'e' in dfa_symbols:
+            dfa_symbols.remove('e')
 
         stack_states = [dfa_initial_state]
         states_checked = []
@@ -80,7 +82,7 @@ class ENFA:
                 else:
                     array_states.append(state)
 
-        return sorted(list(set(array_states)))
+        return list(set(array_states))
 
     def build_target(self, symbol: str, array_state: str, closure: dict):
         target = 'e'
@@ -104,8 +106,8 @@ class ENFA:
 
     @staticmethod
     def regex_to_enfa(regular_expression: str):
-        regular_expression = common_utils.insert_dot_operator(regular_expression)
-        postfix = common_utils.to_postfix(regular_expression)
+        regular_expression = common.insert_dot_operator(regular_expression)
+        postfix = common.to_postfix(regular_expression)
 
         return ENFA.postfix_to_enfa(postfix)
 
@@ -265,6 +267,6 @@ class ENFA:
 
 
 if __name__ == '__main__':
-    text = 'a|b'
+    text = 'ab'
     dfa = ENFA.regex_to_dfa(text)
     print(dfa.__dict__)

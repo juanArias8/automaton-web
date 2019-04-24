@@ -4,10 +4,11 @@ from flask import render_template
 from flask import request
 
 from automaton.dfa import DFA
+from automaton.enfa import ENFA
 from automaton.nfa import NFA
-from automaton.utils.common_utils import check_type
-from automaton.utils.common_utils import from_dict_to_json_format
-from automaton.utils.common_utils import from_json_to_dict
+from automaton.utils.common import check_type
+from automaton.utils.common import from_dict_to_json_format
+from automaton.utils.common import from_json_to_dict
 
 # from automaton import enfa
 
@@ -42,6 +43,34 @@ def create_automaton():
                                 automaton.get('transitions'))
 
         dfa_automaton.minify()
+        data = from_dict_to_json_format(dfa_automaton.__dict__)
+        print(f'response ==> {data}')
+
+        success = True
+        message = 'Automata creado con éxito'
+    except Exception as error:
+        print(error)
+        success = False
+        message = error
+        data = {}
+    response = jsonify({
+        'success': success,
+        'data': data,
+        'message': message
+    })
+    print(response)
+
+    return response
+
+
+@app.route('/regex/generate', methods=['POST'])
+def generate_automaton():
+    json = request.get_json()
+    print(f'json ==> {json}')
+    try:
+        dfa_automaton = ENFA.regex_to_dfa(json['regex'])
+        dfa_automaton.minify()
+        print(f'AUTOMATON {dfa_automaton.__dict__}')
         data = from_dict_to_json_format(dfa_automaton.__dict__)
         print(f'response ==> {data}')
 

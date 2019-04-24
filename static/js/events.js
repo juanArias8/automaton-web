@@ -114,3 +114,7 @@ function clearAutomatonFormInputs() {
     $("#transitionTargetInput").val("");
     $("#transitionsList").html(null);
 }
+
+function clearRegexFormInputs() {
+    $("#regexInput").val("");
+}

@@ -11,8 +11,12 @@ $(document).ready(() => {
     let transitionsList = $("#transitionsList");
     let transitions = [];
 
+    let regexInput = $("#regexInput");
+
     let btnCreateAutomaton = $("#btnCreateAutomaton");
     let btnClearAutomaton = $("#btnClearAutomaton");
+
+    let btnGenerateAutomaton = $("#btnGenerateAutomaton");
 
     btnAddTransition.click((event) => {
         event.preventDefault();
@@ -95,7 +99,7 @@ $(document).ready(() => {
             }
         }).fail(function () {
             showAutomatonSolutionInfo();
-            failMessage("Ha ocurrido un error, por favor inténtalo más tarde");
+            failMessage("Ha ocurrido un error, por favor revisa tu configuración o inténtalo más tarde");
         });
 
         // if (states.length > 0 && symbols.length > 0 && initial !== "" && final.length > 0 && transitions.length > 0) {
@@ -104,6 +108,37 @@ $(document).ready(() => {
         //     showAutomatonSolutionInfo();
         //     failMessage("Por favor verifica que hayas ingresado todos los campos");
         // }
+    });
+
+    btnGenerateAutomaton.click((event) => {
+        event.preventDefault();
+        let regex = regexInput.val();
+
+        if (regex !== "") {
+            let data = JSON.stringify({"regex": regex});
+
+            $.ajax({
+                type: "POST", url: "/regex/generate", data: data,
+                contentType: "application/json; charset=utf-8", dataType: "json",
+            }).done(function (response) {
+                console.log(response);
+                if (response.success) {
+                    showAutomatonSolutionResponse();
+                    clearRegexFormInputs();
+                    buildGraph(response.data);
+                    buildJsonText(response.data);
+                } else {
+                    showAutomatonSolutionInfo();
+                    failMessage(response.message);
+                }
+            }).fail(function () {
+                showAutomatonSolutionInfo();
+                failMessage("Ha ocurrido un error, por favor revisa tu configuración o inténtalo más tarde");
+            });
+        } else {
+            showAutomatonSolutionInfo();
+            failMessage("Por favor verifica que hayas ingresado todos los campos");
+        }
     });
 });
 
@@ -122,6 +157,8 @@ function buildGraph(automatonJson) {
     automatonJson.transitions.forEach(value => {
         edges.push({from: value["state"], to: value["target"], arrows: "to", label: value["symbol"]})
     });
+
+    console.log({nodes: nodes, edges: edges});
 
     graphAutomatonContainer.height(automatonSolutionResponse.height() - 30);
     graphAutomatonContainer.width(automatonSolutionResponse.width() - 30);
@@ -148,5 +185,5 @@ function buildJsonText(automaton) {
 }
 
 function buildPythonScript(automaton) {
-
+    let pythonScript = ``;
 }
