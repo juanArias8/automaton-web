@@ -33,15 +33,15 @@ class DFA(object):
                 )
 
     def check_transitions(self) -> None:
-        for state_transition in self.transitions.items():
-            self.check_transition_symbols(state_transition[1])
-            self.check_transition_target_states(state_transition[1])
+        for state, transition in self.transitions.items():
+            self.check_transition_symbols(transition)
+            self.check_transition_target_states(transition)
 
     def check_transition_symbols(self, transition: dict) -> None:
         for symbol in transition.keys():
             if symbol not in self.symbols:
                 raise AutomatonException(
-                    f'check_transition_symbols'
+                    f'check_transition_symbols ==> '
                     f'{symbol} es un símbolo inválido'
                 )
 

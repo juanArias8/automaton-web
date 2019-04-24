@@ -45,7 +45,7 @@ class NFA(object):
         for symbol in transition.keys():
             if symbol not in self.symbols:
                 raise AutomatonException(
-                    f'check_transition_symbols'
+                    f'check_transition_symbols ==> '
                     f'{symbol} es un símbolo inválido'
                 )
 

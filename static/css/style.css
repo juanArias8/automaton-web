@@ -330,9 +330,29 @@ label {
     border-bottom: 2px solid #4caf50;
 }
 
-.graph, .json, .code {
+.automaton-solution-response {
     width: 100%;
+    height: calc(100vh - 100px);
+}
+
+.automaton-details, .automaton-code {
+    width: 90%;
+    margin-left: 5%;
     height: calc(100vh - 120px);
+    overflow-y: auto !important;
+}
+
+.automaton-graph {
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+
+.automaton-details {
+
+}
+
+.automaton-code {
+
 }
 
 /* ****************************************************************************************************************** */

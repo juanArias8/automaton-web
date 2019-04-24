@@ -140,17 +140,35 @@
             </div>
         </div>
 
-        <div id="automatonSolutionResponse">
+        <div class="automaton-solution-response" id="automatonSolutionResponse">
             <div class="navbar-automaton">
                 <ul class="navbar-automaton-collection">
                     <li class="navbar-automaton-item" id="graphAutomatonLink">GRÁFICO</li>
-                    <li class="navbar-automaton-item" id="jsonAutomatonLink">JSON</li>
+                    <li class="navbar-automaton-item" id="jsonAutomatonLink">DETALLES</li>
                     <li class="navbar-automaton-item" id="codeAutomatonLink">CÓDIGO</li>
                 </ul>
             </div>
-            <div class="graph" id="graphAutomatonContainer"></div>
-            <div class="json" id="jsonAutomatonContainer"></div>
-            <div class="code" id="codeAutomatonContainer"></div>
+            <div class="automaton-graph" id="graphAutomatonContainer"></div>
+            <div class="automaton-details" id="detailsAutomatonContainer">
+                <ul class="collection">
+                    <li class="collection-item" id="detailAutomatonStates"></li>
+                    <li class="collection-item" id="detailAutomatonSymbols"></li>
+                    <li class="collection-item" id="detailAutomatonInitial"></li>
+                    <li class="collection-item" id="detailAutomatonFinal"></li>
+                </ul>
+
+                <table class="highlight striped centered">
+                    <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Símbolo</th>
+                        <th>Objetivo</th>
+                    </tr>
+                    </thead>
+                    <tbody id="detailAutomatonTransitions"></tbody>
+                </table>
+            </div>
+            <div class="automaton-code" id="codeAutomatonContainer"></div>
         </div>
     </div>
 </div>

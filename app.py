@@ -22,10 +22,10 @@ def index():
 @app.route('/automaton/create', methods=['POST'])
 def create_automaton():
     json = request.get_json()
-
+    print(f'json ==> {json}')
     try:
         automaton = from_json_to_dict(json)
-
+        print(f'dict ==> {automaton}')
         if check_type(automaton) is 'nfa':
             nfa_automaton = NFA(automaton.get('symbols'),
                                 automaton.get('states'),
@@ -42,7 +42,8 @@ def create_automaton():
                                 automaton.get('transitions'))
 
         dfa_automaton.minify()
-        json_automaton = from_dict_to_json_format(dfa_automaton.__dict__)
+        data = from_dict_to_json_format(dfa_automaton.__dict__)
+        print(f'response ==> {data}')
 
         success = True
         message = 'Automata creado con éxito'
@@ -50,13 +51,15 @@ def create_automaton():
         print(error)
         success = False
         message = error
-        json_automaton = None
-
-    return jsonify({
+        data = {}
+    response = jsonify({
         'success': success,
-        'data': json_automaton,
+        'data': data,
         'message': message
     })
+    print(response)
+
+    return response
 
 
 if __name__ == '__main__':

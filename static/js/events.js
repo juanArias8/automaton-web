@@ -23,14 +23,14 @@ $(document).ready(() => {
     let codeAutomatonLink = $("#codeAutomatonLink");
 
     let graphAutomatonContainer = $("#graphAutomatonContainer");
-    let jsonAutomatonContainer = $("#jsonAutomatonContainer");
+    let detailsAutomatonContainer = $("#detailsAutomatonContainer");
     let codeAutomatonContainer = $("#codeAutomatonContainer");
 
     aboutContainer.hide(0);
     regexForm.hide(0);
     automatonSolutionResponse.hide(0);
     loader.hide(0);
-    jsonAutomatonContainer.hide(0);
+    detailsAutomatonContainer.hide(0);
     codeAutomatonContainer.hide(0);
     matcherContainer.hide(0);
 
@@ -59,19 +59,19 @@ $(document).ready(() => {
 
     graphAutomatonLink.click(() => {
         graphAutomatonContainer.show(0);
-        jsonAutomatonContainer.hide(0);
+        detailsAutomatonContainer.hide(0);
         codeAutomatonContainer.hide(0);
     });
 
     jsonAutomatonLink.click(() => {
         graphAutomatonContainer.hide(0);
-        jsonAutomatonContainer.show(0);
+        detailsAutomatonContainer.show(0);
         codeAutomatonContainer.hide(0);
     });
 
     codeAutomatonLink.click(() => {
         graphAutomatonContainer.hide(0);
-        jsonAutomatonContainer.hide(0);
+        detailsAutomatonContainer.hide(0);
         codeAutomatonContainer.show(0);
     });
 
@@ -102,4 +102,15 @@ function showAutomatonSolutionResponse() {
     $("#automatonSolutionInfo").hide("slow");
     $("#automatonSolutionLoader").hide("slow");
     $("#automatonSolutionResponse").show("slow");
+}
+
+function clearAutomatonFormInputs() {
+    $("#statesInput").val("");
+    $("#symbolsInput").val("");
+    $("#initialInput").val("");
+    $("#finalInput").val("");
+    $("#transitionStateInput").val("");
+    $("#transitionSymbolInput").val("");
+    $("#transitionTargetInput").val("");
+    $("#transitionsList").html(null);
 }
