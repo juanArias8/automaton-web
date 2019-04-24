@@ -1,5 +1,5 @@
 from automaton.dfa import DFA
-from automaton.utils import parser
+from automaton.utils import common_utils
 
 
 class ENFA:
@@ -104,8 +104,8 @@ class ENFA:
 
     @staticmethod
     def regex_to_enfa(regular_expression: str):
-        regular_expression = parser.insert_dot_operator(regular_expression)
-        postfix = parser.to_postfix(regular_expression)
+        regular_expression = common_utils.insert_dot_operator(regular_expression)
+        postfix = common_utils.to_postfix(regular_expression)
 
         return ENFA.postfix_to_enfa(postfix)
 

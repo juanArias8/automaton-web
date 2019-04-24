@@ -12,12 +12,12 @@
                         <label class="" for="symbolsInput">Símbolos</label>
                     </div>
                     <div class="col s3">
-                        <input class="validate" type="text" id="statesInput" name="statesInput" placeholder="A">
-                        <label class="" for="statesInput">Inicial</label>
+                        <input class="validate" type="text" id="initialInput" name="initialInput" placeholder="A">
+                        <label class="" for="initialInput">Inicial</label>
                     </div>
                     <div class="col s3">
-                        <input class="validate" type="text" id="symbolsInput" name="symbolsInput" placeholder="B, C">
-                        <label class="" for="symbolsInput">Final</label>
+                        <input class="validate" type="text" id="finalInput" name="finalInput" placeholder="B, C">
+                        <label class="" for="finalInput">Final</label>
                     </div>
                 </div>
                 <div class="row">
@@ -51,29 +51,29 @@
                         <th>Objetivo</th>
                     </tr>
                     </thead>
-                    <tbody id="transitionsList">
-
-                    </tbody>
+                    <tbody id="transitionsList"></tbody>
                 </table>
 
-                <div class="progress form-loader" id="loaderCreateAutomaton">
-                    <div class="indeterminate"></div>
-                </div>
                 <div class="center-align">
                     <button class="btn btn-primary btn-create-automaton hoverable" id="btnCreateAutomaton">
                         Crear autómata
                     </button>
                 </div>
             </form>
+
+            <!-- Start regex form -->
             <form class="regex-form" id="regexForm">
-                <div class="col s6 input-field">
-                    <input class="validate" type="text" id="statesInput" name="statesInput" placeholder="A, B. C">
-                    <label class="" for="statesInput">Estados</label>
+                <div class="">
+                    <input class="validate" type="text" id="regexInput" name="regexInput" placeholder="(a|b)*c">
+                    <label class="" for="regexInput">Expresión regular</label>
                 </div>
                 <div class="center-align">
-                    <button class="btn btn-primary hoverable " id="btnCreateAutomaton">Crear autómata</button>
+                    <button class="btn btn-primary btn-create-automaton hoverable" id="btnGenerateAutomaton">
+                        Crear autómata
+                    </button>
                 </div>
             </form>
+            <!-- End regex form -->
         </div>
 
         <div class="matcher-opener center-align">
@@ -96,16 +96,56 @@
         </div>
     </div>
 
-    <div class="col l8 automaton-graph-container">
-        <div class="navbar-automaton">
-            <ul class="navbar-automaton-collection">
-                <li class="navbar-automaton-item" id="graphAutomatonLink">GRÁFICO</li>
-                <li class="navbar-automaton-item" id="jsonAutomatonLink">JSON</li>
-                <li class="navbar-automaton-item" id="codeAutomatonLink">CÓDIGO</li>
-            </ul>
+    <div class="col l8 automaton-solution-container" id="automatonSolutionContainer">
+        <div class="automaton-solution-info" id="automatonSolutionInfo">
+            <p class="flow-text automaton-solution-info-title">Autómata Finito</p>
+            <hr>
+            <div class="row">
+                <div class="col s12 l8">
+                    <p class="automaton-solution-info-text">
+                        Un <b>autómata finito</b> (AF) o máquina de estado finito es un modelo computacional que realiza
+                        cómputos enforma automática sobre una entrada para producir una salida. <br>
+
+                        Este modelo está conformado por un alfabeto, un conjunto de estados finito, una función de
+                        transición, un estado inicial y un conjunto de estados finales. Su funcionamiento se basa en una
+                        función de transición, que recibe a partir de un estado inicial una cadena de caracteres
+                        pertenecientes alalfabeto (la entrada), y que va leyendo dicha cadena a medida que el autómata
+                        se desplaza de un estado a otro, para finalmente detenerse en un estado final o de aceptación,
+                        que representa la salida.<br>
+
+                        La finalidad de los autómatas finitos es la de reconocer lenguajes regulares, que corresponden a
+                        los lenguajes formales más simples según la Jerarquía de Chomsky. <br><br>
+
+                        Para saber más visita
+                        <a href="https://es.wikipedia.org/wiki/Aut%C3%B3mata_finito" target="_blank">Wikipedia</a>
+                    </p>
+                </div>
+                <div class="col s12 l4 automaton-solution-info-image-side">
+                    <img class="responsive-img" src="./../static/img/dfa.png" alt="Automaton Example Image">
+                    <hr>
+                    <p>
+                        <b>Autómata Finito Determinista</b> que reconoce el lenguaje regular conformado exclusivamente
+                        por las cadenas con un número par de ceros y par de unos.
+                    </p>
+                </div>
+
+                <div class="container-loader" id="loader">
+                    <div class="preload"></div>
+                </div>
+            </div>
         </div>
-        <div class="graph" id="graphAutomatonContainer"></div>
-        <div class="json" id="jsonAutomatonContainer"></div>
-        <div class="code" id="codeAutomatonContainer"></div>
+
+        <div id="automatonSolutionResponse">
+            <div class="navbar-automaton">
+                <ul class="navbar-automaton-collection">
+                    <li class="navbar-automaton-item" id="graphAutomatonLink">GRÁFICO</li>
+                    <li class="navbar-automaton-item" id="jsonAutomatonLink">JSON</li>
+                    <li class="navbar-automaton-item" id="codeAutomatonLink">CÓDIGO</li>
+                </ul>
+            </div>
+            <div class="graph" id="graphAutomatonContainer"></div>
+            <div class="json" id="jsonAutomatonContainer"></div>
+            <div class="code" id="codeAutomatonContainer"></div>
+        </div>
     </div>
 </div>

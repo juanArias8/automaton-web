@@ -67,6 +67,46 @@ def check_type(automaton: dict):
     return 'dfa'
 
 
+def from_json_to_dict(automaton):
+    transitions = dict()
+
+    for transition in automaton['transitions']:
+        state_transition = transitions.get(transition['state'])
+        target_transition = {transition['symbol']: transition['target']}
+        if state_transition:
+            transitions.get(transition['state']).update(target_transition)
+        else:
+            transitions.update({transition['state']: target_transition})
+
+    automaton = {
+        'states': set(automaton['states']),
+        'symbols': set(automaton['symbols']),
+        'initial_state': automaton['initial'],
+        'final_states': set(automaton['final']),
+        'transitions': transitions
+    }
+
+    return automaton
+
+
+def from_dict_to_json_format(automaton: dict):
+    transitions = []
+    for state, transition in automaton.get('transitions').items():
+        for symbol, target in transition.items():
+            transition_js = {'state': state, 'symbol': symbol, 'target': target}
+            transitions.append(transition_js)
+
+    automaton = {
+        'states': list(automaton.get('states')),
+        'symbols': list(automaton.get('symbols')),
+        'initial': automaton.get('initial_state'),
+        'final': list(automaton.get('final_states')),
+        'transitions': transitions
+    }
+
+    return automaton
+
+
 if __name__ == '__main__':
     text = '(a|b)*c'
 
