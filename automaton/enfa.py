@@ -16,7 +16,9 @@ class ENFA:
 
         dfa_symbols = list(self.symbols)
         dfa_transitions = dict()
-        dfa_initial_state = ''.join(closure.get(self.initial_state))
+        dfa_initial_state = '_'.join(closure.get(self.initial_state))
+
+        print(f'initial state ==> {dfa_initial_state}')
 
         if 'e' in dfa_symbols:
             dfa_symbols.remove('e')
@@ -28,6 +30,7 @@ class ENFA:
             states_checked.append(actual_state)
 
             dfa_transition = dict()
+            print(f'actual state ==> {actual_state}')
             for symbol in dfa_symbols:
                 target = self.build_target(symbol, actual_state, closure)
                 dfa_transition.update({symbol: target})
@@ -86,16 +89,17 @@ class ENFA:
 
     def build_target(self, symbol: str, array_state: str, closure: dict):
         target = 'e'
-        for state in array_state:
-            try:
-                response = self.transitions.get(state).get(symbol)
-                if response:
-                    target = response
-                    break
-            except Exception as e:
-                print(f'{state}, {symbol} not exists: {e}')
+        for state in array_state.split('_'):
+            if state is not 'e':
+                try:
+                    response = self.transitions.get(state).get(symbol)
+                    if response:
+                        target = response
+                        break
+                except Exception as e:
+                    print(f'{state}, {symbol} not exists: {e}')
 
-        dfa_state = ''.join(closure.get(target)) if target is not 'e' else 'e'
+        dfa_state = '_'.join(closure.get(target)) if target is not 'e' else 'e'
 
         return dfa_state
 
@@ -267,6 +271,6 @@ class ENFA:
 
 
 if __name__ == '__main__':
-    text = '((1|01)*|1)+'
+    text = 'ABC*CD*(A|B)'
     dfa = ENFA.regex_to_dfa(text)
     print(dfa.__dict__)
