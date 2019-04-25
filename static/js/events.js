@@ -11,6 +11,9 @@ $(document).ready(() => {
     let automatonForm = $("#automatonForm");
     let regexForm = $("#regexForm");
 
+    let automatonFormInfo = $("#automatonFormInfo");
+    let regexFormInfo = $("#regexFormInfo");
+
     let btnMatcherOpener = $("#btnMatcherOpener");
     let btnMatcherCloser = $("#btnMatcherCloser");
     let matcherContainer = $("#matcherContainer");
@@ -36,6 +39,8 @@ $(document).ready(() => {
     codeAutomatonContainer.hide(0);
     matcherContainer.hide(0);
     matchLoader.hide(0);
+    automatonFormInfo.hide(0);
+    regexFormInfo.hide(0);
 
     automatonLink.click(() => {
         automatonContainer.show(0);
@@ -120,6 +125,28 @@ function clearAutomatonFormInputs() {
 
 function clearRegexFormInputs() {
     $("#regexInput").val("");
+}
+
+function showAutomatonInfo(automaton) {
+    let automatonFormInfo = $("#automatonFormInfo");
+    let automatonInfo = generateAutomatonInfo(automaton);
+    automatonFormInfo.html(automatonInfo);
+    automatonFormInfo.show("slow");
+}
+
+function showRegexInfo(regex) {
+    let regexFormInfo = $("#regexFormInfo");
+    let regexInfo = generateRegexInfo(regex);
+    regexFormInfo.html(regexInfo);
+    regexFormInfo.show("slow");
+}
+
+function hideAutomatonInfo() {
+    $("#automatonFormInfo").hide(0);
+}
+
+function hideRegexInfo() {
+    $("#regexFormInfo").hide(0);
 }
 
 function clearMatchFormInputs() {

@@ -1,11 +1,6 @@
 from automaton.examples.dfa import json_format_example
 
-operator_precedence = {
-    '|': 0,
-    '.': 1,
-    '+': 2,
-    '*': 3
-}
+operator_precedence = {'|': 0, '.': 1, '+': 2, '*': 3}
 
 
 def insert_dot_operator(expression: str):
@@ -16,14 +11,11 @@ def insert_dot_operator(expression: str):
 
         if token is '(' or token is '|' or token is '.':
             continue
-
         if index < len(expression) - 1:
             lookahead = expression[index + 1]
-
             if lookahead is '*' or lookahead is '+' or lookahead is '|' or \
                     lookahead is ')' or lookahead is '.':
                 continue
-
             output += '.'
 
     return output

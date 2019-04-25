@@ -51,6 +51,8 @@ $(document).ready(() => {
     btnClearAutomaton.click((event) => {
         event.preventDefault();
         clearAutomatonFormInputs();
+        hideAutomatonInfo();
+
         transitions = [];
     });
 
@@ -63,17 +65,19 @@ $(document).ready(() => {
         let initial = initialInput.val().toUpperCase();
         let final = finalInput.val().toUpperCase().split(',');
 
-        let automaton = {
-            "states": states,
-            "symbols": symbols,
-            "initial": initial,
-            "final": final,
-            "transitions": transitions
-        };
-
         if (states.length > 0 && symbols.length > 0 && initial !== "" && final.length > 0 && transitions.length > 0) {
+            let automatonData = {
+                "states": states,
+                "symbols": symbols,
+                "initial": initial,
+                "final": final,
+                "transitions": transitions
+            };
+
+            showAutomatonInfo(automatonData);
+
             $.ajax({
-                type: "POST", url: "/automaton/create", data: JSON.stringify(automaton),
+                type: "POST", url: "/automaton/create", data: JSON.stringify(automatonData),
                 contentType: "application/json; charset=utf-8", dataType: "json",
             }).done(function (response) {
                 console.log(response);
@@ -104,10 +108,11 @@ $(document).ready(() => {
         let regex = regexInput.val().toUpperCase();
 
         if (regex !== "") {
-            let data = {"regex": regex};
+            let regexData = {"regex": regex};
+            showRegexInfo(regexData);
 
             $.ajax({
-                type: "POST", url: "/regex/generate", data: JSON.stringify(data),
+                type: "POST", url: "/regex/generate", data: JSON.stringify(regexData),
                 contentType: "application/json; charset=utf-8", dataType: "json",
             }).done(function (response) {
                 console.log(response);
@@ -169,64 +174,3 @@ $(document).ready(() => {
     });
 });
 
-function buildGraph(automatonJson) {
-    let container = document.getElementById("graphAutomatonContainer");
-    let graphAutomatonContainer = $("#graphAutomatonContainer");
-    let automatonSolutionResponse = $("#automatonSolutionResponse");
-
-    let nodes = [];
-    let edges = [];
-
-    automatonJson.states.forEach(value => {
-        nodes.push({id: value, label: value})
-    });
-
-    automatonJson.transitions.forEach(value => {
-        edges.push({from: value["state"], to: value["target"], arrows: "to", label: value["symbol"]})
-    });
-
-    console.log({nodes: nodes, edges: edges});
-
-    graphAutomatonContainer.height(automatonSolutionResponse.height() - 30);
-    graphAutomatonContainer.width(automatonSolutionResponse.width() - 30);
-
-    let network = new vis.Network(container, {nodes: nodes, edges: edges}, {});
-}
-
-function buildJsonText(automaton) {
-    let detailTransitions = '';
-    console.log(automaton);
-    automaton.transitions.forEach(value => {
-        console.log(value);
-        detailTransitions += `<tr>
-                            <td>${value.state}</td>
-                            <td>${value.symbol}</td>
-                            <td>${value.target}</td>
-                        </tr>`
-    });
-
-    $("#detailAutomatonStates").html(`<b>Estados: </b> ${automaton.states.join(', ')}`);
-    $("#detailAutomatonSymbols").html(`<b>Símbolos: </b> ${automaton.symbols.join(', ')}`);
-    $("#detailAutomatonInitial").html(`<b>Inicial: </b> ${automaton.initial}`);
-    $("#detailAutomatonFinal").html(`<b>Finales: </b> ${automaton.final.join(', ')}`);
-    $("#detailAutomatonTransitions").html(detailTransitions);
-}
-
-function buildPythonScript(automaton) {
-    console.log(automaton);
-    let pythonScript = generatePythonTemplate(automaton);
-    localStorage.setItem("script", pythonScript);
-    $("#codeAutomaton").html(`<code >${pythonScript}</code>`)
-}
-
-function downloadScript() {
-    let script = localStorage.getItem("script");
-    let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script));
-    element.setAttribute('download', 'script.py');
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
