@@ -1,3 +1,5 @@
+from automaton.examples.dfa import json_format_example
+
 operator_precedence = {
     '|': 0,
     '.': 1,
@@ -71,18 +73,21 @@ def from_json_to_dict(automaton):
     transitions = dict()
 
     for transition in automaton['transitions']:
-        state_transition = transitions.get(transition['state'])
-        target_transition = {transition['symbol']: transition['target']}
-        if state_transition:
-            transitions.get(transition['state']).update(target_transition)
+        state = transition['state'].upper()
+        symbol = transition['symbol'].upper()
+        target = transition['target'].upper()
+        target_transition = {symbol: target}
+
+        if transitions.get(state):
+            transitions.get(state).update(target_transition)
         else:
-            transitions.update({transition['state']: target_transition})
+            transitions.update({state: target_transition})
 
     automaton = {
-        'states': set(automaton['states']),
-        'symbols': set(automaton['symbols']),
-        'initial_state': automaton['initial'],
-        'final_states': set(automaton['final']),
+        'states': set([state.upper() for state in automaton['states']]),
+        'symbols': set([symbol.upper() for symbol in automaton['symbols']]),
+        'initial_state': automaton['initial'].upper(),
+        'final_states': set([final.upper() for final in automaton['final']]),
         'transitions': transitions
     }
 
@@ -107,8 +112,19 @@ def from_dict_to_json_format(automaton: dict):
     return automaton
 
 
+def check_expression(automaton, expression: str) -> bool:
+    state = automaton.get('initial_state')
+    for item in expression.upper():
+        if item not in automaton.get('symbols'):
+            return False
+        transition = automaton.get('transitions').get(state)
+        state = transition.get(item)
+    return state in automaton.get('final_states')
+
+
 if __name__ == '__main__':
     text = '(a|b)*c'
-
     print(insert_dot_operator(text))
     print(to_postfix(insert_dot_operator(text)))
+
+    print(f'Dict converted ==> {from_json_to_dict(json_format_example)}')

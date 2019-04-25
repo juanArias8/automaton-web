@@ -76,12 +76,14 @@ $(document).ready(() => {
                 type: "POST", url: "/automaton/create", data: JSON.stringify(automaton),
                 contentType: "application/json; charset=utf-8", dataType: "json",
             }).done(function (response) {
+                console.log(response);
                 if (response.success) {
                     localStorage.setItem("automaton", JSON.stringify(response.data));
                     showAutomatonSolutionResponse();
                     clearAutomatonFormInputs();
                     buildGraph(response.data);
-                    buildJsonText(response.automaton);
+                    buildJsonText(response.data);
+                    buildPythonScript(response.automaton);
                     transitions = [];
                 } else {
                     showAutomatonSolutionInfo();
@@ -99,7 +101,7 @@ $(document).ready(() => {
 
     btnGenerateAutomaton.click((event) => {
         event.preventDefault();
-        let regex = regexInput.val();
+        let regex = regexInput.val().toUpperCase();
 
         if (regex !== "") {
             let data = {"regex": regex};
@@ -132,7 +134,7 @@ $(document).ready(() => {
 
     btnMatchString.click((event) => {
         event.preventDefault();
-        let string = stringInput.val();
+        let string = stringInput.val().toUpperCase();
 
         if (string !== "") {
             showMatchLoader();
@@ -192,10 +194,11 @@ function buildGraph(automatonJson) {
 }
 
 function buildJsonText(automaton) {
-    let transitions = '';
-
+    let detailTransitions = '';
+    console.log(automaton);
     automaton.transitions.forEach(value => {
-        transitions += `<tr>
+        console.log(value);
+        detailTransitions += `<tr>
                             <td>${value.state}</td>
                             <td>${value.symbol}</td>
                             <td>${value.target}</td>
@@ -206,14 +209,14 @@ function buildJsonText(automaton) {
     $("#detailAutomatonSymbols").html(`<b>Símbolos: </b> ${automaton.symbols.join(', ')}`);
     $("#detailAutomatonInitial").html(`<b>Inicial: </b> ${automaton.initial}`);
     $("#detailAutomatonFinal").html(`<b>Finales: </b> ${automaton.final.join(', ')}`);
-    $("#detailAutomatonTransitions").html(transitions);
+    $("#detailAutomatonTransitions").html(detailTransitions);
 }
 
 function buildPythonScript(automaton) {
     console.log(automaton);
     let pythonScript = generatePythonTemplate(automaton);
     localStorage.setItem("script", pythonScript);
-    $("#codeAutomaton").html(`<code>${pythonScript}</code>`)
+    $("#codeAutomaton").html(`<code >${pythonScript}</code>`)
 }
 
 function downloadScript() {

@@ -19,7 +19,7 @@ function generatePythonTemplate(automaton) {
         '\n\n' +
         'def check_expression(automaton, expression: str) -> bool:\n' +
         '    state = automaton.get(\'initial_state\')\n' +
-        '    for item in expression:\n' +
+        '    for item in expression.upper():\n' +
         '        if item not in automaton.get(\'symbols\'):\n' +
         '            return False\n' +
         '        transition = automaton.get(\'transitions\').get(state)\n' +
@@ -28,5 +28,4 @@ function generatePythonTemplate(automaton) {
         '\n\n' +
         'string = input(\'Ingrese la cadena >> \')\n' +
         'print(check_expression(automaton_test, string))'
-
 }

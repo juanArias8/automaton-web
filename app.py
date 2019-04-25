@@ -6,10 +6,9 @@ from flask import request
 from automaton.dfa import DFA
 from automaton.enfa import ENFA
 from automaton.nfa import NFA
-from automaton.utils.common import check_type
+from automaton.utils.common import check_type, check_expression
 from automaton.utils.common import from_dict_to_json_format
 from automaton.utils.common import from_json_to_dict
-from automaton.utils.script import check_expression
 from automaton.utils.script import generate_dict_string
 
 # from automaton import enfa
@@ -25,10 +24,11 @@ def index():
 @app.route('/automaton/create', methods=['POST'])
 def create_automaton():
     request_data = request.get_json()
+    print(request_data)
     try:
         automaton = from_json_to_dict(request_data)
-        states = automaton.get('symbols')
-        symbols = automaton.get('states')
+        states = automaton.get('states')
+        symbols = automaton.get('symbols')
         initial = automaton.get('initial_state')
         final = automaton.get('final_states')
         transitions = automaton.get('transitions')

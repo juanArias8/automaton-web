@@ -14,6 +14,17 @@ odd_zeros_pair_ones = {
     }
 }
 
+automaton_test = {
+    "states": {"B", "A"},
+    "symbols": {"0", "1"},
+    "initial_state": "A",
+    "final_states": {"B"},
+    "transitions": {
+        "B": {"1": "B", "0": "B"},
+        "A": {"1": "B", "0": "A"}
+    }
+}
+
 strange_states = {
     'symbols': {'a', 'b'},
     'states': {'0', '1', '2', '3', '4', '5', '6', '7', '8'},
@@ -32,4 +43,15 @@ strange_states = {
     }
 }
 
-
+json_format_example = {
+    'states': ['a', 'b'],
+    'symbols': ['0', '1'],
+    'initial': 'a',
+    'final': ['b'],
+    'transitions': [
+        {'state': 'a', 'symbol': '0', 'target': 'a'},
+        {'state': 'a', 'symbol': '1', 'target': 'b'},
+        {'state': 'b', 'symbol': '0', 'target': 'b'},
+        {'state': 'b', 'symbol': '1', 'target': 'b'}
+    ]
+}
