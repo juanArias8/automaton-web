@@ -412,3 +412,66 @@ label {
 /* ****************************************************************************************************************** */
 /* ABOUT SECTION STYLES */
 /* ****************************************************************************************************************** */
+
+.about-container {
+    width: 100%;
+    height: calc(100vh - 60px);
+    overflow-y: auto !important;
+}
+
+.about-container h1 {
+    font-size: 2rem;
+}
+
+.about-container h2 {
+    font-size: 1.6rem;
+}
+
+.about-text {
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+.about-container ul {
+    list-style: circle !important;
+}
+
+.about-container ul li {
+    list-style: circle !important;
+}
+
+.user-options-container {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.user-options-image {
+    width: 400px !important;
+    margin: 0 auto;
+}
+
+.user-options-description {
+    margin-top: -15px !important;
+    padding: 0 20px 0 20px !important;
+}
+
+.about-graph-image {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.footer .flow-text {
+    margin-top: 0 !important;
+}
+
+.footer .year-text {
+    margin-top: -25px !important;
+}
+
+/* ****************************************************************************************************************** */
+/* ERRORS TEMPLATES STYLES */
+/* ****************************************************************************************************************** */
+.error-container {
+    width: 40vw;
+    margin-left: 30vw;
+    height: 40vh;
+    margin-top: 30vh;
+}

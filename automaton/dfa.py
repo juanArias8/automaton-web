@@ -58,25 +58,6 @@ class DFA(object):
         self.delete_equivalents_states()
 
     def delete_strange_states(self) -> None:
-        # valid_states = []
-        # states_stack = []
-        # states_checked = []
-        #
-        # states_stack.append(self.initial_state)
-        # while states_stack:
-        #     state = states_stack.pop()
-        #     valid_states.append(state)
-        #     states_checked.append(state)
-        #     transition = self.transitions[state]
-        #
-        #     for symbol, target_state in transition.items():
-        #         if target_state not in states_checked:
-        #             states_stack.append(target_state)
-        #
-        # self.states = valid_states
-        # for state in list(self.transitions.keys()):
-        #     if state not in self.states:
-        #         del self.transitions[state]
         valid_states = set()
         states_stack = []
         states_checked = []
