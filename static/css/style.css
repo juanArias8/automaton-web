@@ -446,7 +446,7 @@ label {
 
 .user-options-image {
     width: 400px !important;
-    margin: 0 auto;
+    margin: 0 auto !important;
 }
 
 .user-options-description {
