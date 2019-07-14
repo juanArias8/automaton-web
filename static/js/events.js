@@ -1,4 +1,8 @@
-$(document).ready(() => {
+$(document).ready(function () {
+    const screenWidth = $(window).width();
+
+    let loader = $("#progressMainContainer");
+
     let automatonLink = $("#autoamatonLink");
     let aboutLink = $("#aboutLink");
     let regexLink = $("#regexLink");
@@ -17,8 +21,8 @@ $(document).ready(() => {
     let btnMatcherOpener = $("#btnMatcherOpener");
     let btnMatcherCloser = $("#btnMatcherCloser");
     let matcherContainer = $("#matcherContainer");
+    let matchLoader = $("#matchLoader");
 
-    let loader = $("#loader");
     let automatonSolutionResponse = $("#automatonSolutionResponse");
 
     let graphAutomatonLink = $("#graphAutomatonLink");
@@ -29,69 +33,80 @@ $(document).ready(() => {
     let detailsAutomatonContainer = $("#detailsAutomatonContainer");
     let codeAutomatonContainer = $("#codeAutomatonContainer");
 
-    let matchLoader = $("#matchLoader");
+    let infoSmallScreen = $("#infoSmallScreen");
 
-    aboutContainer.hide(0);
-    regexForm.hide(0);
-    automatonSolutionResponse.hide(0);
-    loader.hide(0);
-    detailsAutomatonContainer.hide(0);
-    codeAutomatonContainer.hide(0);
     matcherContainer.hide(0);
-    matchLoader.hide(0);
-    automatonFormInfo.hide(0);
-    regexFormInfo.hide(0);
+    loader.hide(0);
+    matcherContainer.css("position", "fixed");
 
-    automatonLink.click(() => {
-        automatonContainer.show(0);
-        aboutContainer.hide(0);
-    });
-
-    aboutLink.click(() => {
+    if (screenWidth <= 992) {
+        automatonLink.hide(0);
+        regexLink.hide(0);
         automatonContainer.hide(0);
         aboutContainer.show(0);
-    });
-
-    automatonLink.click(() => {
-        brandText.text("AUTÓMATAS");
-        automatonForm.show(0);
+        infoSmallScreen.show(0);
+    } else {
+        aboutContainer.hide(0);
+        infoSmallScreen.hide(0);
         regexForm.hide(0);
-    });
-
-    regexLink.click(() => {
-        brandText.text("REGEX");
-        automatonContainer.show(0);
-        automatonForm.hide(0);
-        regexForm.show(0);
-    });
-
-    graphAutomatonLink.click(() => {
-        graphAutomatonContainer.show(0);
+        automatonSolutionResponse.hide(0);
         detailsAutomatonContainer.hide(0);
         codeAutomatonContainer.hide(0);
-    });
+        matchLoader.hide(0);
+        automatonFormInfo.hide(0);
+        regexFormInfo.hide(0);
 
-    jsonAutomatonLink.click(() => {
-        graphAutomatonContainer.hide(0);
-        detailsAutomatonContainer.show(0);
-        codeAutomatonContainer.hide(0);
-    });
+        automatonLink.click(() => {
+            automatonContainer.show(0);
+            aboutContainer.hide(0);
+        });
 
-    codeAutomatonLink.click(() => {
-        graphAutomatonContainer.hide(0);
-        detailsAutomatonContainer.hide(0);
-        codeAutomatonContainer.show(0);
-    });
+        aboutLink.click(() => {
+            automatonContainer.hide(0);
+            aboutContainer.show(0);
+        });
 
-    btnMatcherOpener.click(() => {
-        btnMatcherOpener.hide("slow");
-        matcherContainer.show("slow");
-    });
+        automatonLink.click(() => {
+            brandText.text("AUTÓMATAS");
+            automatonForm.show(0);
+            regexForm.hide(0);
+        });
 
-    btnMatcherCloser.click(() => {
-        btnMatcherOpener.show("slow");
-        matcherContainer.hide("slow");
-    });
+        regexLink.click(() => {
+            brandText.text("REGEX");
+            automatonContainer.show(0);
+            automatonForm.hide(0);
+            regexForm.show(0);
+        });
+
+        graphAutomatonLink.click(() => {
+            graphAutomatonContainer.show(0);
+            detailsAutomatonContainer.hide(0);
+            codeAutomatonContainer.hide(0);
+        });
+
+        jsonAutomatonLink.click(() => {
+            graphAutomatonContainer.hide(0);
+            detailsAutomatonContainer.show(0);
+            codeAutomatonContainer.hide(0);
+        });
+
+        codeAutomatonLink.click(() => {
+            graphAutomatonContainer.hide(0);
+            detailsAutomatonContainer.hide(0);
+            codeAutomatonContainer.show(0);
+        });
+
+        btnMatcherOpener.click(() => {
+            btnMatcherOpener.hide("slow");
+            matcherContainer.show("slow");
+        });
+
+        btnMatcherCloser.click(() => {
+            btnMatcherOpener.show("slow");
+            matcherContainer.hide("slow");
+        });
+    }
 });
 
 function showAutomatonSolutionInfo() {
